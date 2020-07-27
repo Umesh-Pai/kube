@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fin-account-service
+spec:
+  selector:
+    matchLabels:
+      app: fin-account-service
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: fin-account-service
+    spec:
+      containers:
+      - name: fin-account-service
+        image: umesh0166/fin-account-service:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fin-account-lb
+spec:
+  selector:
+    app: fin-account-service
+  ports:
+    - protocol: TCP
+      port: 82
+      targetPort: 5001
+  type: LoadBalancer
