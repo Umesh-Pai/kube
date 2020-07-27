@@ -1,0 +1,10 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fin-customer-service
+  labels:
+    name: fin-customer-service
+spec:
+    containers:
+    - name: fin-customer-service
+      image: umesh0166/fin-customer-service:latest
