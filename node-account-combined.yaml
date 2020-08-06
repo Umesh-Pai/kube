@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-account-service
+spec:
+  selector:
+    matchLabels:
+      app: node-account-service
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: node-account-service
+    spec:
+      containers:
+      - name: node-account-service
+        image: umesh0166/node-account-service:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-account-lb
+spec:
+  selector:
+    app: node-account-service
+  ports:
+    - protocol: TCP
+      port: 81
+      targetPort: 8081
+  type: LoadBalancer
