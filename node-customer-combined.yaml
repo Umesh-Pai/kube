@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-customer-service
+spec:
+  selector:
+    matchLabels:
+      app: node-customer-service
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: node-customer-service
+    spec:
+      containers:
+      - name: node-customer-service
+        image: umesh0166/node-customer-service:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-customer-lb
+spec:
+  selector:
+    app: node-customer-service
+  ports:
+    - protocol: TCP
+      port: 81
+      targetPort: 8081
+  type: LoadBalancer
