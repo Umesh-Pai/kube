@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: currency-eureka-server
+spec:
+  selector:
+    matchLabels:
+      app: currency-eureka-server
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: currency-eureka-server
+    spec:
+      containers:
+      - name: currency-eureka-server
+        image: umesh0166/eureka-service:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: currency-eureka-lb
+spec:
+  selector:
+    app: currency-eureka-server
+  ports:
+    - protocol: TCP
+      port: 81
+      targetPort: 8761
+  type: LoadBalancer
