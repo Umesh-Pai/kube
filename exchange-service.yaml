@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: exchange-service
+spec:
+  selector:
+    matchLabels:
+      app: exchange-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: exchange-service
+    spec:
+      containers:
+      - name: exchange-service
+        image: umesh0166/exchange-service:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: exchange-cip
+spec:
+  selector:
+    app: exchange-service
+  ports:
+    - protocol: TCP
+      port: 82
+      targetPort: 8000
