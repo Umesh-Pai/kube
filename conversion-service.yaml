@@ -9,11 +9,12 @@ spec:
   replicas: 1
   template:
     metadata:
+      name: conversion-pod
       labels:
         app: conversion-service
     spec:
       containers:
-      - name: conversion-service
+      - name: conversion-pod
         image: umesh0166/conversion-service:latest
 ---
 apiVersion: v1
