@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wholesale-account-service
+spec:
+  selector:
+    matchLabels:
+      app: wholesale-account-service
+  replicas: 1
+  template:
+    metadata:
+      name: wholesale-account-pod
+      labels:
+        app: wholesale-account-service
+    spec:
+      containers:
+      - name: wholesale-account-pod
+        image: umesh0166/wholesale-account-service:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wholesale-account-lb
+spec:
+  selector:
+    app: wholesale-account-service
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
+  type: LoadBalancer
