@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postcode-lookup-service
+spec:
+  selector:
+    matchLabels:
+      app: postcode-lookup-service
+  replicas: 1
+  template:
+    metadata:
+      name: postcode-lookup-pod
+      labels:
+        app: postcode-lookup-service
+    spec:
+      containers:
+      - name: postcode-lookup-pod
+        image: umesh0166/postcode-lookup-service:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postcode-lookup-lb
+spec:
+  selector:
+    app: postcode-lookup-service
+  ports:
+    - protocol: TCP
+      port: 8082
+      targetPort: 8082
+  type: LoadBalancer
