@@ -35,7 +35,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql-cip
+  name: mysql-lb
 spec:
   selector:
     app: mysql
