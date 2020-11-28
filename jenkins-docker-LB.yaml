@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins
+spec:
+  selector:
+    matchLabels:
+      app: jenkins
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      name: jenkins-pod
+      labels:
+        app: jenkins
+    spec:
+      containers:
+      - name: jenkins-pod
+        image: jit2600/jenkins-docker:1.0
+        env:
+          - name: JAVA_OPTS
+            value: -Djenkins.install.runSetupWizard=false
+        ports:
+          - name: http-port
+            containerPort: 8080
+          - name: jnlp-port
+            containerPort: 5000
+        volumeMounts:
+          - name: jenkins-vol
+            mountPath: /var/jenkins_vol
+          - name: docker-sock
+            mountPath: /var/run/docker.sock
+            
+      volumes:
+        - name: jenkins-vol
+          emptyDir: {}
+        - name: docker-sock
+          hostPath:
+            path: /var/run/docker.sock
+            type: File
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-lb
+spec:
+  selector:
+    app: jenkins
+  ports:
+    - port: 8080
+      targetPort: 8080
+  type: LoadBalancer
