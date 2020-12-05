@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: retail-service
+spec:
+  selector:
+    matchLabels:
+      app: retail-service
+  replicas: 1
+  template:
+    metadata:
+      name: retail-service-pod
+      labels:
+        app: retail-service
+    spec:
+      containers:
+      - name: retail-service-pod
+        image: umesh0166/retail-service:latest
